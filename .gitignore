@@ -1,0 +1,9 @@
+/vendor/
+/.idea
+/.vscode
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
+.phpstorm.meta.php
+.php-cs-fixer.cache
+composer.lock

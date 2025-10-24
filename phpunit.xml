@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        colors="true"
+        bootstrap="tests/bootstrap.php"
+        beStrictAboutOutputDuringTests="true"
+        beStrictAboutTestsThatDoNotTestAnything="true"
+        beStrictAboutTodoAnnotatedTests="true"
+        stopOnFailure="false"
+>
+    <testsuites>
+        <testsuite name="OAS Builder/Core Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
