@@ -20,10 +20,10 @@ use On1kel\OAS\Builder\Media\MediaType;
 use On1kel\OAS\Builder\Schema\Schema;
 
 // CORE serialize
-use On1kel\OAS\Serialize\DefaultSerializer;
-use On1kel\OAS\Serialize\DefaultNormalizer;
-use On1kel\OAS\Serialize\DefaultDenormalizer;
-use On1kel\OAS\Serialize\TypeRegistry;
+use On1kel\OAS\Core\Serialize\DefaultSerializer;
+use On1kel\OAS\Core\Serialize\DefaultNormalizer;
+use On1kel\OAS\Core\Serialize\DefaultDenormalizer;
+use On1kel\OAS\Core\Serialize\TypeRegistry;
 
 // Профиль
 use On1kel\OAS\Profile31\Profile\OAS31Profile;
@@ -115,7 +115,7 @@ final class OpenApiBuilderTest extends TestCase
         $param0 = $arr['paths']['/pets/{id}']['get']['parameters'][0] ?? null;
         self::assertTrue($doc->paths->has('/pets/{id}'));
         $pi = $doc->paths->get('/pets/{id}');
-        self::assertInstanceOf(\On1kel\OAS\Model\PathItem::class, $pi);
+        self::assertInstanceOf(\On1kel\OAS\Core\Model\PathItem::class, $pi);
         self::assertSame('getPet', $pi->get?->operationId);
 
     }

@@ -5,7 +5,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use On1kel\OAS\Builder\Support\ProfileProvider;
 use On1kel\OAS\Profile31\Profile\OAS31Profile;
-use On1kel\OAS\Version\ProfileRegistry;
+use On1kel\OAS\Core\Version\ProfileRegistry;
 
 $globalProfiles = new ProfileRegistry();
 $globalProfiles->register(new OAS31Profile());

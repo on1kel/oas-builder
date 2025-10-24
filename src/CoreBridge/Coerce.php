@@ -6,6 +6,9 @@ namespace On1kel\OAS\Builder\CoreBridge;
 
 use On1kel\OAS\Builder\Support\Contracts\BuildsCoreModel;
 use On1kel\OAS\Core\Model as Core;
+use On1kel\OAS\Core\Model\Collections\Map\MediaTypeMap;
+use On1kel\OAS\Core\Model\Collections\Map\ResponseMap;
+use On1kel\OAS\Core\Model\Collections\Map\SchemaMap;
 
 /**
  * Набор статических методов для «приведения» значений в core-модели:
@@ -160,7 +163,7 @@ final class Coerce
         self::failType('Paths', $m);
     }
 
-    /** @param Core\ResponseMap|BuildsCoreModel $value */
+    /** @param ResponseMap|BuildsCoreModel $value */
     public static function responseMap(Core\Collections\Map\ResponseMap|BuildsCoreModel $value): Core\Collections\Map\ResponseMap
     {
         $m = self::model($value);
@@ -170,7 +173,7 @@ final class Coerce
         self::failType('ResponseMap', $m);
     }
 
-    /** @param Core\MediaTypeMap|BuildsCoreModel $value */
+    /** @param MediaTypeMap|BuildsCoreModel $value */
     public static function mediaTypeMap(Core\Collections\Map\MediaTypeMap|BuildsCoreModel $value): Core\Collections\Map\MediaTypeMap
     {
         $m = self::model($value);
@@ -180,7 +183,7 @@ final class Coerce
         self::failType('MediaTypeMap', $m);
     }
 
-    /** @param Core\SchemaMap|BuildsCoreModel $value */
+    /** @param SchemaMap|BuildsCoreModel $value */
     public static function schemaMap(Core\Collections\Map\SchemaMap|BuildsCoreModel $value): Core\Collections\Map\SchemaMap
     {
         $m = self::model($value);

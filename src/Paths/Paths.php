@@ -72,19 +72,19 @@ final class Paths implements BuildsCoreModel
     /** Шорткаты (по желанию оставляем самые частые) */
     public function get(string $path, Operation $op): self
     {
-        return $this->put($path, PathItem::of()->get($op));
+        return $this->put($path, PathItem::create()->get($op));
     }
     public function post(string $path, Operation $op): self
     {
-        return $this->put($path, PathItem::of()->post($op));
+        return $this->put($path, PathItem::create()->post($op));
     }
     public function putMethod(string $path, Operation $op): self
     {
-        return $this->put($path, PathItem::of()->put($op));
+        return $this->put($path, PathItem::create()->put($op));
     }
     public function delete(string $path, Operation $op): self
     {
-        return $this->put($path, PathItem::of()->delete($op));
+        return $this->put($path, PathItem::create()->delete($op));
     }
 
     public function remove(string $path): self
