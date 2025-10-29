@@ -24,6 +24,7 @@ use On1kel\OAS\Core\Model\Collections\List\SecurityRequirementList;
 use On1kel\OAS\Core\Model\Collections\List\ServerList;
 use On1kel\OAS\Core\Model\Collections\List\TagList;
 use On1kel\OAS\Core\Model\Collections\Map\CallbackMap;
+use On1kel\OAS\Core\Model\Tag;
 
 /**
  * Builder для Operation Object.
