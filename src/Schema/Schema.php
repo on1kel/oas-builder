@@ -232,6 +232,8 @@ final class Schema implements BuildsCoreModel, NamedNode, ExtensibleNode
     public function properties(Schema ...$props): self
     {
         $y = clone $this;
+
+        // 1) собрать карту из переданных билдеров
         $map = [];
         foreach ($props as $p) {
             $n = $p->name();
@@ -240,7 +242,10 @@ final class Schema implements BuildsCoreModel, NamedNode, ExtensibleNode
             }
             $map[$n] = $p;
         }
-        $y->properties = $map;
+
+        // 2) МЕРДЖ: старые + новые, при коллизии берём НОВОЕ значение
+        $base = $y->properties ?? [];
+        $y->properties = array_replace($base, $map);
 
         return $y;
     }
@@ -252,6 +257,8 @@ final class Schema implements BuildsCoreModel, NamedNode, ExtensibleNode
     public function propertiesNamed(array $map): self
     {
         $y = clone $this;
+
+        // 1) валидация и сбор временной карты
         $out = [];
         foreach ($map as $name => $node) {
             if (!is_string($name) || $name === '') {
@@ -263,7 +270,11 @@ final class Schema implements BuildsCoreModel, NamedNode, ExtensibleNode
             }
             $out[$name] = $node;
         }
-        $y->properties = $out;
+
+        // 2) МЕРДЖ: старые + новые, при коллизии берём НОВОЕ значение
+        // array_replace сохраняет ключи из первой карты и подменяет совпавшие ключи из второй
+        $base = $y->properties ?? [];
+        $y->properties = array_replace($base, $out);
 
         return $y;
     }
