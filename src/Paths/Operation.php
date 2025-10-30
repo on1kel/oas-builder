@@ -379,20 +379,13 @@ final class Operation implements BuildsCoreModel
             $coreServers[] = $srvBuilder->toModel();
         }
 
-        $tagObjs = [];
+        $tagNames = [];
         foreach ($this->tags ?? [] as $tagName) {
-            if (is_string($tagName) && $tagName !== '') {
-                $tagObjs[] = new Tag(
-                    name: $tagName,
-                    description: null,
-                    externalDocs: null,
-                    extensions: [],
-                );
+            if (\is_string($tagName) && $tagName !== '') {
+                $tagNames[] = $tagName;
             }
         }
-
-        // теперь TagList получит именно массив Tag, не массив string
-        $coreTags = Assembler::listOrNull(TagList::class, $tagObjs);
+        $coreTags = $tagNames ?: null;
 
         return new Core\Operation(
             tags: $coreTags,
