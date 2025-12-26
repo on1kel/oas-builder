@@ -38,4 +38,9 @@ final class ProfileContext
     {
         return $this->features->extraFlag($flag, $default);
     }
+
+    public function supportsMultipleTypes(): bool
+    {
+        return false;
+    }
 }
