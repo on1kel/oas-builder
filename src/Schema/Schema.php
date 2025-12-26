@@ -9,9 +9,7 @@ use On1kel\OAS\Builder\CoreBridge\RefFactory;
 use On1kel\OAS\Builder\Support\Contracts\BuildsCoreModel;
 use On1kel\OAS\Builder\Support\Contracts\ExtensibleNode;
 use On1kel\OAS\Builder\Support\Contracts\NamedNode;
-use On1kel\OAS\Builder\Support\Errors\FeatureNotSupported;
 use On1kel\OAS\Builder\Support\Errors\InvalidCombination;
-use On1kel\OAS\Builder\Support\ProfileProvider;
 use On1kel\OAS\Builder\Support\Traits\HasExtensions;
 use On1kel\OAS\Builder\Support\Traits\HasName;
 use On1kel\OAS\Core\Model as Core;
@@ -150,23 +148,6 @@ final class Schema implements BuildsCoreModel, NamedNode, ExtensibleNode
         $x->type = 'boolean';
 
         return $name ? $x->named($name) : $x;
-    }
-
-    public function multipleTypes(array $types): self
-    {
-        $this->guardMultipleTypes(); // Проверить профиль (см. ниже)
-
-        $y = clone $this;
-        $y->type = $types; // например ['string', 'null']
-        return $y;
-    }
-
-// В FeatureGuard (или в Profile)
-    private function guardMultipleTypes(): void
-    {
-        if (!ProfileProvider::current()->supportsMultipleTypes()) {
-            throw new FeatureNotSupported('Multiple types in "type" allowed only in OAS 3.1+');
-        }
     }
 
     /** Удобный helper для $ref (если надо прямо Reference в другом месте) */
@@ -487,12 +468,7 @@ final class Schema implements BuildsCoreModel, NamedNode, ExtensibleNode
     public function nullable(bool $flag = true): self
     {
         $y = clone $this;
-
-        if ($flag && $y->type === 'string') { // пример для string
-            $y->type = ['string', 'null'];
-        } elseif ($flag && is_string($y->type)) {
-            $y->type = [$y->type, 'null'];
-        }
+        $y->nullable = $flag;
 
         return $y;
     }
@@ -655,24 +631,6 @@ final class Schema implements BuildsCoreModel, NamedNode, ExtensibleNode
         return $y;
     }
 
-    private function normalizeTypeForProfile(string|array|null $type, SpecProfile $profile): string|array|null
-    {
-        if ($type === null) {
-            return null;
-        }
-
-        if (is_string($type)) {
-            return $type; // всегда строка — хорошо для всех версий
-        }
-
-        // Если массив — только если профиль позволяет
-        if (!$profile->supportsMultipleTypes()) {
-            throw new InvalidCombination('Multiple types in "type" not supported in this profile');
-        }
-
-        return $type;
-    }
-
     // ── Build ──────────────────────────────────────────────────────────────
 
     public function toModel(): Core\Schema
@@ -738,7 +696,7 @@ final class Schema implements BuildsCoreModel, NamedNode, ExtensibleNode
 
         return new Core\Schema(
             raw: $this->raw,
-            type: $this->normalizeTypeForProfile($this->type, ProfileProvider::current()),
+            type: $this->type,
             enum: $enum,
             const: $this->const,
             allOf: $allOf,
